@@ -1,7 +1,5 @@
 package com.amerrell.eventsquared.services;
 
-import android.util.Log;
-
 import com.amerrell.eventsquared.Constants;
 
 import okhttp3.Call;
