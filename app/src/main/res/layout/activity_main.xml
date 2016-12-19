@@ -33,7 +33,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cityEditTextditText"
+            android:id="@+id/cityEditText"
             android:layout_below="@+id/SearchTitleTextView"
             android:hint="City"
             android:inputType="text"
@@ -44,8 +44,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/stateEditTextditText"
-            android:layout_below="@+id/cityEditTextditText"
+            android:id="@+id/stateEditText"
+            android:layout_below="@+id/cityEditText"
             android:hint="State"
             android:inputType="text"
             android:singleLine="true"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="Search"
             android:id="@+id/mainSearchButton"
-            android:layout_below="@+id/stateEditTextditText"
+            android:layout_below="@+id/stateEditText"
             android:background="@color/colorAccent" />
 
     </RelativeLayout>
