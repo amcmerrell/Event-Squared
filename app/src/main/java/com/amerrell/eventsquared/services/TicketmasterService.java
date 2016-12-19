@@ -10,9 +10,6 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-/**
- * Created by Guest on 12/19/16.
- */
 public class TicketmasterService {
     public static void findTMEvents(String city, String state, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
@@ -22,7 +19,6 @@ public class TicketmasterService {
             .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
             .addQueryParameter(Constants.TM_STATE_PARAMETER, state);
         String url = urlBuilder.build().toString();
-        Log.v("URL", url);
 
         Request request = new Request.Builder().url(url).build();
 
