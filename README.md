@@ -26,8 +26,8 @@ _You will need the following things properly installed on your computer._
 
 ## Installation
 
-* `git clone https://github.com/amcmerrell/EventSquared`
-* `cd EventSquared`
+* `git clone https://github.com/amcmerrell/Event-Squared`
+* `cd Event-Squared`
 * _Open Android Studio and select 'Import project'._
 * _Navigate to the cloned folder and click 'OK'._
 
