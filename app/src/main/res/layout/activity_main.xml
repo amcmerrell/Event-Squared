@@ -3,14 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.amerrell.eventsquared.ui.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/eventbg"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerInParent="true"
+        android:background="@color/colorPrimaryTransparent"
+        android:layout_margin="10dp"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Search Events"
+            android:id="@+id/SearchTitleTextView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="40sp"
+            android:textColor="@color/colorTextIcons" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cityEditTextditText"
+            android:layout_below="@+id/SearchTitleTextView"
+            android:hint="City"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/colorTextIcons"
+            android:textColorHint="@color/colorTextHint" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/stateEditTextditText"
+            android:layout_below="@+id/cityEditTextditText"
+            android:hint="State"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/colorTextIcons"
+            android:textColorHint="@color/colorTextHint" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:id="@+id/mainSearchButton"
+            android:layout_below="@+id/stateEditTextditText"
+            android:background="@color/colorAccent" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
