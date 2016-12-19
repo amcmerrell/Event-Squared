@@ -22,4 +22,9 @@ public class EventbriteService {
         Call call = client.newCall(request);
         call.enqueue(callback);
     }
+
+    public static void setEventbritePrice(String eventId) {
+
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.amerrell.eventsquared.models;
 
 public class Event {
+    String id;
     String name;
     String dateTime;
     String venue;
@@ -10,12 +11,17 @@ public class Event {
 
     public Event() {}
 
-    public Event(String name, String dateTime, String venue, String price, String imageURL) {
+    public Event(String id, String name, String dateTime, String venue, String price, String imageURL) {
+        this.id = id;
         this.name = name;
         this.dateTime = dateTime;
         this.venue = venue;
-        this.price = price;
+        this.price = "";
         this.imageURL = imageURL;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -36,5 +42,9 @@ public class Event {
 
     public String getPrice() {
         return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }
