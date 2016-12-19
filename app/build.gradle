@@ -19,6 +19,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'TM_API_KEY', TicketMasterAPIKey
+        it.buildConfigField 'String', 'EVENTBRITE_TOKEN_KEY', EventBriteAPIToken
     }
 }
 
