@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.amerrell.eventsquared.R;
+import com.amerrell.eventsquared.services.EventbriteService;
 import com.amerrell.eventsquared.services.TicketmasterService;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class EventListActivity extends AppCompatActivity {
         String searchState = intent.getStringExtra("state");
 
         getTMEvents(searchCity, searchState);
+        getEventbriteEvents(searchCity, searchState);
     }
 
     private void getTMEvents(String city, String state) {
@@ -40,7 +42,25 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String jsonData = response.body().string();
-                Log.v("RESPONSE: ", jsonData);
+                Log.v("TM done ", jsonData);
+            }
+        });
+    }
+
+    private void getEventbriteEvents(String city, String state) {
+        String cityState = city + ", " + state;
+        final EventbriteService eventbriteService = new EventbriteService();
+
+        eventbriteService.findEventbriteEvents(cityState, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String jsonData = response.body().string();
+                Log.v("Eventbrite done", jsonData);
             }
         });
     }
