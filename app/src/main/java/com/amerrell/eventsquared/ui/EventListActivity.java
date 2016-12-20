@@ -12,6 +12,8 @@ import com.amerrell.eventsquared.services.TicketmasterService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -19,6 +21,7 @@ import okhttp3.Response;
 
 public class EventListActivity extends AppCompatActivity {
     public ArrayList<Event> mEvents = new ArrayList<>();
+    public ArrayList<Event> mTMEvents = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,6 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     private void getTMEvents(String city, String state) {
-
         final TicketmasterService ticketmasterService = new TicketmasterService();
         ticketmasterService.findTMEvents(city, state, new Callback() {
             @Override
@@ -44,13 +46,25 @@ public class EventListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String jsonData = response.body().string();
-                Log.v("TM done ", jsonData);
+                if (response.isSuccessful()) {
+                    mTMEvents = ticketmasterService.processResults(response);
+                    Integer size = mEvents.size();
+                    Log.d("Events size ", size.toString());
+                    mEvents.addAll(mTMEvents);
+                    Integer newSize = mEvents.size();
+                    Log.d("After adding", newSize.toString());
+                    Collections.sort(mEvents, new Comparator<Event>() {
+                        @Override
+                        public int compare(Event e1, Event e2) {
+                            return e1.toDateTime().compareTo(e2.toDateTime());
+                        }
+                    });
+                }
             }
         });
     }
 
-    private void getEventbriteEvents(String city, String state) {
+    private void getEventbriteEvents(final String city, final String state) {
         String cityState = city + ", " + state;
         final EventbriteService eventbriteService = new EventbriteService();
 
@@ -64,7 +78,7 @@ public class EventListActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     mEvents = eventbriteService.processResults(response);
-                    Log.d("Event created", mEvents.get(0).toStringMaxPrice());
+                    getTMEvents(city, state);
                 }
             }
         });

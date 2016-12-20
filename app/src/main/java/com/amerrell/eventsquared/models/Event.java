@@ -1,5 +1,7 @@
 package com.amerrell.eventsquared.models;
 
+import org.joda.time.DateTime;
+
 public class Event {
     String id;
     String name;
@@ -33,6 +35,11 @@ public class Event {
         return dateTime;
     }
 
+    public DateTime toDateTime() {
+        DateTime dt = new DateTime(dateTime);
+        return dt;
+    }
+
     public String getVenue() {
         return venue;
     }
@@ -52,6 +59,8 @@ public class Event {
     public String toStringMinPrice() {
         if (minPrice == 0.0) {
             return "Free";
+        } else if (minPrice == -0.01) {
+            return "N/A";
         } else {
             return "$" + minPrice.toString();
         }
@@ -60,6 +69,8 @@ public class Event {
     public String toStringMaxPrice() {
         if (maxPrice == 0.0) {
             return "Free";
+        } else if (maxPrice == -0.01) {
+            return "N/A";
         } else {
             return "$" + maxPrice.toString();
         }
