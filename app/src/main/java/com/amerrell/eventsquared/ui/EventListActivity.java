@@ -59,8 +59,9 @@ public class EventListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String jsonData = response.body().string();
-                Log.v("Eventbrite done", jsonData);
+                if (response.isSuccessful()) {
+                    eventbriteService.processResults(response);
+                }
             }
         });
     }
