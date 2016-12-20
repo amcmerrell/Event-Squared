@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -62,6 +64,7 @@ public class EventbriteService {
                     String id = eventsJSON.getJSONObject(i).getString("id");
                     String name = eventsJSON.getJSONObject(i).getJSONObject("name").getString("text");
                     Log.d("id", id);
+
                 }
             }
         } catch (IOException e) {
