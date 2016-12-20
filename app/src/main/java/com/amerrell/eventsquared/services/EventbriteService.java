@@ -27,8 +27,10 @@ public class EventbriteService {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.EVENTBRITE_BASE_URL).newBuilder();
         urlBuilder.addPathSegment(Constants.EVENTBRITE_SEARCH_PATH)
-                .addQueryParameter(Constants.EVENTBRITE_TOKEN_PARAMETER, Constants.EVENTBRITE_API_TOKEN)
-                .addQueryParameter(Constants.EVENTBRITE_LOCATION_PARAMETER, cityState);
+                .addQueryParameter(Constants.EVENTBRITE_LOCATION_PARAMETER, cityState)
+                .addQueryParameter(Constants.EVENTBRITE_EXPAND_PARAMETER, Constants.EVENTBRITE_VENUE_VALUE)
+                .addQueryParameter(Constants.EVENTBRITE_TOKEN_PARAMETER, Constants.EVENTBRITE_API_TOKEN);
+
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder().url(url).build();
@@ -61,10 +63,14 @@ public class EventbriteService {
                 JSONObject eventbriteJSON = new JSONObject(jsonData);
                 JSONArray eventsJSON = eventbriteJSON.getJSONArray("events");
                 for (int i = 0; i < eventsJSON.length(); i++) {
-                    String id = eventsJSON.getJSONObject(i).getString("id");
-                    String name = eventsJSON.getJSONObject(i).getJSONObject("name").getString("text");
-                    Log.d("id", id);
-
+                    JSONObject eventJSON = eventsJSON.getJSONObject(i);
+                    String id = eventJSON.getString("id");
+                    String name = eventJSON.getJSONObject("name").getString("text");
+                    String dateTime = eventJSON.getJSONObject("start").getString("local");
+                    String venue = eventJSON.getJSONObject("venue").getString("name");
+                    String imageURL = eventJSON.getJSONObject("logo").getString("url");
+                    Event event = new Event(id, name, dateTime, venue, imageURL);
+                    events.add(event);
                 }
             }
         } catch (IOException e) {

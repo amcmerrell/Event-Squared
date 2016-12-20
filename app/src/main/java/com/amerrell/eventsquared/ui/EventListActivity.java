@@ -6,16 +6,19 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.amerrell.eventsquared.R;
+import com.amerrell.eventsquared.models.Event;
 import com.amerrell.eventsquared.services.EventbriteService;
 import com.amerrell.eventsquared.services.TicketmasterService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class EventListActivity extends AppCompatActivity {
+    public ArrayList<Event> mEvents = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,10 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    eventbriteService.processResults(response);
+                    mEvents = eventbriteService.processResults(response);
+                    for (int i = 0; i < mEvents.size(); i++) {
+                        Log.d("Event! ", mEvents.get(i).getName());
+                    }
                 }
             }
         });

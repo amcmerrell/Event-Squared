@@ -11,6 +11,8 @@ public class Constants {
     public static final String EVENTBRITE_BASE_URL = "https://www.eventbriteapi.com/v3/events/";
     public static final String EVENTBRITE_SEARCH_PATH = "search";
     public static final String EVENTBRITE_TICKET_PATH = "ticket_classes";
+    public static final String EVENTBRITE_EXPAND_PARAMETER = "expand";
+    public static final String EVENTBRITE_VENUE_VALUE = "venue";
     public static final String EVENTBRITE_TOKEN_PARAMETER = "token";
     public static final String EVENTBRITE_LOCATION_PARAMETER = "location.address";
 }
