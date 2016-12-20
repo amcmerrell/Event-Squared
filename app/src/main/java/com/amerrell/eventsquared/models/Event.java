@@ -5,18 +5,19 @@ public class Event {
     String name;
     String dateTime;
     String venue;
-    //TODO determine how to find lowest price for Eventbite and TM events.
-    String price;
+    Double minPrice;
+    Double maxPrice;
     String imageURL;
 
     public Event() {}
 
-    public Event(String id, String name, String dateTime, String venue, String imageURL) {
+    public Event(String id, String name, String dateTime, String venue, Double minPrice, Double maxPrice, String imageURL) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
         this.venue = venue;
-        this.price = "";
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
         this.imageURL = imageURL;
     }
 
@@ -40,11 +41,27 @@ public class Event {
         return imageURL;
     }
 
-    public String getPrice() {
-        return price;
+    public Double getMinPrice() {
+        return minPrice;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public Double getMaxPrice() {
+        return maxPrice;
+    }
+
+    public String toStringMinPrice() {
+        if (minPrice == 0.0) {
+            return "Free";
+        } else {
+            return "$" + minPrice.toString();
+        }
+    }
+
+    public String toStringMaxPrice() {
+        if (maxPrice == 0.0) {
+            return "Free";
+        } else {
+            return "$" + maxPrice.toString();
+        }
     }
 }

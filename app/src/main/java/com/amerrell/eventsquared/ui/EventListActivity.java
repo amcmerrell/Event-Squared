@@ -64,9 +64,7 @@ public class EventListActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     mEvents = eventbriteService.processResults(response);
-                    for (int i = 0; i < mEvents.size(); i++) {
-                        Log.d("Event! ", mEvents.get(i).getName());
-                    }
+                    Log.d("Event created", mEvents.get(0).toStringMaxPrice());
                 }
             }
         });

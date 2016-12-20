@@ -12,7 +12,11 @@ public class Constants {
     public static final String EVENTBRITE_SEARCH_PATH = "search";
     public static final String EVENTBRITE_TICKET_PATH = "ticket_classes";
     public static final String EVENTBRITE_EXPAND_PARAMETER = "expand";
-    public static final String EVENTBRITE_VENUE_VALUE = "venue";
     public static final String EVENTBRITE_TOKEN_PARAMETER = "token";
     public static final String EVENTBRITE_LOCATION_PARAMETER = "location.address";
+    public static final String EVENTBRITE_SORTBY_PARAMETER = "sort_by";
+    public static final String EVENTBRITE_START_DATE_PARAMETER = "start_date.keyword";
+    public static final String EVENTBRITE_DATE_VALUE = "date";
+    public static final String EVENTBRITE_TODAY_VALUE = "today";
+    public static final String EVENTBRITE_VENUE_TICKETS_VALUES = "venue,ticket_classes";
 }
