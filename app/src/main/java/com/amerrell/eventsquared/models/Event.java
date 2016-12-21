@@ -15,6 +15,7 @@ public class Event {
     Double minPrice;
     Double maxPrice;
     String imageURL;
+    String source;
 
     public Event() {}
 
@@ -46,11 +47,6 @@ public class Event {
         return dateFormat.print(toDateTime());
     }
 
-    public DateTime toDateTime() {
-        DateTime dt = new DateTime(dateTime);
-        return dt;
-    }
-
     public String getVenue() {
         return venue;
     }
@@ -65,6 +61,19 @@ public class Event {
 
     public Double getMaxPrice() {
         return maxPrice;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public DateTime toDateTime() {
+        DateTime dt = new DateTime(dateTime);
+        return dt;
     }
 
     public String toStringMinPrice() {

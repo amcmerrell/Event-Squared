@@ -42,6 +42,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         if (!event.getImageURL().equals("")) {
             Picasso.with(mContext).load(event.getImageURL()).into(holder.mEventListImageView);
         }
+        if (event.getSource().equals("ticketmaster")) {
+            holder.mSourceLogoImageView.setImageResource(R.drawable.ticketmasterlogo);
+        } else if (event.getSource().equals("eventbrite")) {
+            holder.mSourceLogoImageView.setImageResource(R.drawable.eventbritelogo);
+        }
         holder.mEventNameTextView.setText(event.getName());
         holder.mDateTextView.setText(event.getDateTime());
         holder.mMaxPriceTextView.setText(event.toStringMaxPrice());
@@ -66,6 +71,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView mEventCardView;
         ImageView mEventListImageView;
+        ImageView mSourceLogoImageView;
         TextView mEventNameTextView;
         TextView mDateTextView;
         Button mTicketsButton;
@@ -78,6 +84,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             super(itemView);
             mEventCardView = (CardView) itemView.findViewById(R.id.eventCardView);
             mEventListImageView = (ImageView) itemView.findViewById(R.id.eventListImageView);
+            mSourceLogoImageView = (ImageView) itemView.findViewById(R.id.sourceLogoImageView);
             mEventNameTextView = (TextView) itemView.findViewById(R.id.eventNameTextView);
             mDateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             mTicketsButton = (Button) itemView.findViewById(R.id.ticketsButton);

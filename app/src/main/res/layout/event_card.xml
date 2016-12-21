@@ -30,6 +30,15 @@
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop" />
 
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sourceLogoImageView"
+                    android:layout_gravity="top|right"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/ticketmasterlogo"/>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

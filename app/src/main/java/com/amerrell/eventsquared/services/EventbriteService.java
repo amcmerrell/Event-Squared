@@ -70,6 +70,7 @@ public class EventbriteService {
                     }
                     String ticketURL = eventJSON.getString("url");
                     Event event = new Event(id, name, ticketURL,dateTime, venue, minPrice, maxPrice, imageURL);
+                    event.setSource("eventbrite");
                     events.add(event);
                 }
             }
