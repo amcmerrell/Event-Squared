@@ -5,6 +5,10 @@ import android.util.Log;
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,15 +29,14 @@ public class TicketmasterService {
     public static void findTMEvents(String city, String state, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
-        SimpleDateFormat tmDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-        Date now = new Date();
-        String strTMDate = tmDateTimeFormat.format(now);
+        DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        DateTime dt = new DateTime(DateTimeZone.UTC);
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.TM_LOCATION_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(Constants.TM_KEY_PARAMETER, Constants.TM_API_KEY)
             .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
             .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
-            .addQueryParameter(Constants.TM_START_DATE_PARAMETER, strTMDate);
+            .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt));
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder().url(url).build();
@@ -54,13 +57,10 @@ public class TicketmasterService {
                     JSONObject eventJSON = eventsJSON.getJSONObject(i);
                     String id = eventJSON.getString("id");
                     String name = eventJSON.getString("name");
-                    String dateTime = "";
                     JSONObject eventDates = eventJSON.getJSONObject("dates").getJSONObject("start");
-                    if (eventDates.has("dateTime")) {
-                        dateTime = eventDates.getString("dateTime");
-                    } else {
-                        dateTime = eventDates.getString("localDate");
-                    }
+                    String date = eventDates.getString("localDate");
+                    String time = eventDates.getString("localTime");
+                    String dateTime = date + "T" + time;
                     String venue = eventJSON.getJSONObject("_embedded").getJSONArray("venues").getJSONObject(0).getString("name");
                     JSONArray images = eventJSON.getJSONArray("images");
                     String imageURL = "";

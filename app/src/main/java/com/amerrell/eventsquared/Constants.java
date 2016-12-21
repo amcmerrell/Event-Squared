@@ -18,7 +18,7 @@ public class Constants {
     public static final String EVENTBRITE_TOKEN_PARAMETER = "token";
     public static final String EVENTBRITE_LOCATION_PARAMETER = "location.address";
     public static final String EVENTBRITE_SORTBY_PARAMETER = "sort_by";
-    public static final String EVENTBRITE_START_DATE_PARAMETER = "start_date.keyword";
+    public static final String EVENTBRITE_START_DATE_PARAMETER = "start_date.range_start";
     public static final String EVENTBRITE_DATE_VALUE = "date";
     public static final String EVENTBRITE_TODAY_VALUE = "today";
     public static final String EVENTBRITE_VENUE_TICKETS_VALUES = "venue,ticket_classes";

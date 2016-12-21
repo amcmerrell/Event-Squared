@@ -5,6 +5,10 @@ import android.util.Log;
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,10 +30,13 @@ public class EventbriteService {
     public static void findEventbriteEvents(String cityState, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
+        DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        DateTime dt = new DateTime(DateTimeZone.getDefault());
+
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.EVENTBRITE_BASE_URL).newBuilder();
         urlBuilder.addPathSegment(Constants.EVENTBRITE_SEARCH_PATH)
                 .addQueryParameter(Constants.EVENTBRITE_LOCATION_PARAMETER, cityState)
-                .addQueryParameter(Constants.EVENTBRITE_START_DATE_PARAMETER, Constants.EVENTBRITE_TODAY_VALUE)
+                .addQueryParameter(Constants.EVENTBRITE_START_DATE_PARAMETER, dateFormat.print(dt))
                 .addQueryParameter(Constants.EVENTBRITE_SORTBY_PARAMETER, Constants.EVENTBRITE_DATE_VALUE)
                 .addQueryParameter(Constants.EVENTBRITE_EXPAND_PARAMETER, Constants.EVENTBRITE_VENUE_TICKETS_VALUES)
                 .addQueryParameter(Constants.EVENTBRITE_TOKEN_PARAMETER, Constants.EVENTBRITE_API_TOKEN);
@@ -52,6 +59,9 @@ public class EventbriteService {
                 JSONArray eventsJSON = eventbriteJSON.getJSONArray("events");
                 for (int i = 0; i < eventsJSON.length(); i++) {
                     JSONObject eventJSON = eventsJSON.getJSONObject(i);
+                    if (eventJSON.getBoolean("online_event")) {
+                        break;
+                    }
                     String id = eventJSON.getString("id");
                     String name = eventJSON.getJSONObject("name").getString("text");
                     String dateTime = eventJSON.getJSONObject("start").getString("local");

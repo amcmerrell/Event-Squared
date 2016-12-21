@@ -35,7 +35,11 @@ public class Event {
     }
 
     public String getName() {
-        return name;
+        if (name.length() <= 50) {
+            return name;
+        } else {
+            return name.substring(0,50) + "...";
+        }
     }
 
     public String getTicketURL() {
@@ -43,12 +47,16 @@ public class Event {
     }
 
     public String getDateTime() {
-        DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm");
+        DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy h:mm a");
         return dateFormat.print(toDateTime());
     }
 
     public String getVenue() {
-        return venue;
+        if (venue.equals("null")) {
+            return "";
+        } else {
+            return venue;
+        }
     }
 
     public String getImageURL() {
