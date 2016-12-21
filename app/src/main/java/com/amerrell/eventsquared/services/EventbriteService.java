@@ -1,5 +1,7 @@
 package com.amerrell.eventsquared.services;
 
+import android.util.Log;
+
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
@@ -66,7 +68,8 @@ public class EventbriteService {
                         minPrice = ticketPrices.get(0);
                         maxPrice = ticketPrices.get(ticketPrices.size() - 1);
                     }
-                    Event event = new Event(id, name, dateTime, venue, minPrice, maxPrice, imageURL);
+                    String ticketURL = eventJSON.getString("url");
+                    Event event = new Event(id, name, ticketURL,dateTime, venue, minPrice, maxPrice, imageURL);
                     events.add(event);
                 }
             }

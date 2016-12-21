@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, EventListActivity.class);
             intent.putExtra("city", searchCity);
             intent.putExtra("state", searchState);
+
+            mCityEditText.setText("");
+            mStateEditText.setText("");
             startActivity(intent);
         }
     }

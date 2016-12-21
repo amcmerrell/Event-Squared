@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 public class Event {
     String id;
     String name;
+    String ticketURL;
     String dateTime;
     String venue;
     Double minPrice;
@@ -17,9 +18,10 @@ public class Event {
 
     public Event() {}
 
-    public Event(String id, String name, String dateTime, String venue, Double minPrice, Double maxPrice, String imageURL) {
+    public Event(String id, String name, String ticketURL, String dateTime, String venue, Double minPrice, Double maxPrice, String imageURL) {
         this.id = id;
         this.name = name;
+        this.ticketURL = ticketURL;
         this.dateTime = dateTime;
         this.venue = venue;
         this.minPrice = minPrice;
@@ -33,6 +35,10 @@ public class Event {
 
     public String getName() {
         return name;
+    }
+
+    public String getTicketURL() {
+        return ticketURL;
     }
 
     public String getDateTime() {

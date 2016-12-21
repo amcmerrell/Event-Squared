@@ -1,5 +1,7 @@
 package com.amerrell.eventsquared.services;
 
+import android.util.Log;
+
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
@@ -68,13 +70,17 @@ public class TicketmasterService {
                             break;
                         }
                     }
+                    if (imageURL.equals("")) {
+                        imageURL = images.getJSONObject(0).getString("url");
+                    }
                     Double minPrice = -0.01;
                     Double maxPrice = -0.01;
                     if (!eventJSON.isNull("priceRanges")) {
                         minPrice = eventJSON.getJSONArray("priceRanges").getJSONObject(0).getDouble("min");
                         maxPrice = eventJSON.getJSONArray("priceRanges").getJSONObject(0).getDouble("max");
                     }
-                    Event event = new Event(id, name, dateTime, venue, minPrice, maxPrice, imageURL);
+                    String ticketURL = eventJSON.getString("url");
+                    Event event = new Event(id, name, ticketURL,dateTime, venue, minPrice, maxPrice, imageURL);
                     events.add(event);
                 }
             }

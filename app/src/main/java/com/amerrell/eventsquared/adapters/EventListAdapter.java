@@ -1,6 +1,8 @@
 package com.amerrell.eventsquared.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -83,11 +85,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mMaxPriceTextView = (TextView) itemView.findViewById(R.id.maxPriceTextView);
             mVenueTextView = (TextView) itemView.findViewById(R.id.venueTextView);
             mContext = itemView.getContext();
+
+            mTicketsButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            if (view == mTicketsButton) {
+                int position = getAdapterPosition();
+                String URL = mEvents.get(position).getTicketURL();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(URL));
+                mContext.startActivity(browserIntent);
+            }
         }
     }
 }
