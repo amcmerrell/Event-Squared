@@ -36,14 +36,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListAdapter.EventViewHolder holder, int position) {
-        if (!mEvents.get(position).getImageURL().equals("")) {
-            Picasso.with(mContext).load(mEvents.get(position).getImageURL()).into(holder.mEventListImageView);
+        Event event = mEvents.get(position);
+        if (!event.getImageURL().equals("")) {
+            Picasso.with(mContext).load(event.getImageURL()).into(holder.mEventListImageView);
         }
-        holder.mEventNameTextView.setText(mEvents.get(position).getName());
-        holder.mDateTextView.setText(mEvents.get(position).getDateTime());
-        holder.mMinPriceTextView.setText(mEvents.get(position).toStringMinPrice());
-        holder.mMaxPriceTextView.setText(mEvents.get(position).toStringMaxPrice());
-        holder.mVenueTextView.setText(mEvents.get(position).getVenue());
+        holder.mEventNameTextView.setText(event.getName());
+        holder.mDateTextView.setText(event.getDateTime());
+        holder.mMaxPriceTextView.setText(event.toStringMaxPrice());
+        if (!event.priceIsEqual(event.getMinPrice(), event.getMaxPrice())) {
+            holder.mMinPriceTextView.setText(event.toStringMinPrice());
+        } else {
+            holder.mMinPriceTextView.setText("");
+        }
+        holder.mVenueTextView.setText(event.getVenue());
     }
 
     @Override

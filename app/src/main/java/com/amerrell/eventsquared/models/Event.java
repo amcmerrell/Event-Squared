@@ -4,6 +4,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.DecimalFormat;
+
 public class Event {
     String id;
     String name;
@@ -63,9 +65,9 @@ public class Event {
         if (minPrice == 0.0) {
             return "Free - ";
         } else if (minPrice == -0.01) {
-            return "N/A - ";
+            return "No prices found";
         } else {
-            return "$" + minPrice.toString() + "0 - ";
+            return "$" + formatDouble(minPrice) + " - ";
         }
     }
 
@@ -73,9 +75,24 @@ public class Event {
         if (maxPrice == 0.0) {
             return "Free";
         } else if (maxPrice == -0.01) {
-            return "N/A";
+            return "No prices found";
         } else {
-            return "$" + maxPrice.toString() + "0";
+            return "$" + formatDouble(maxPrice);
+        }
+    }
+
+    public String formatDouble(Double price) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        return decimalFormat.format(price);
+    }
+
+    public boolean priceIsEqual(Double minPrice, Double maxPrice) {
+        if (minPrice == maxPrice) {
+            return true;
+        } else if (minPrice == -0.01 || maxPrice == -0.01) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

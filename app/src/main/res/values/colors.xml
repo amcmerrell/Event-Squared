@@ -7,6 +7,7 @@
     <color name="colorAccentTransparent">#B3FF9800</color>
     <color name="colorPrimaryLight">#B2EBF2</color>
     <color name="colorPrimaryText">#212121</color>
+    <color name="colorBackground">#B336454f</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorTextIcons">#ffffff</color>
     <color name="colorTextHint">#ccffffff</color>

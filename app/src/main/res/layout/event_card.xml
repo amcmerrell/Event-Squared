@@ -34,7 +34,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/eventCardTextLayout"
-                android:background="@color/colorAccentTransparent"
+                android:background="@color/colorBackground"
                 android:padding="5dp"
                 android:layout_alignBottom="@+id/eventListImageView">
 
@@ -87,7 +87,7 @@
                         android:id="@+id/ticketsButton"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_alignParentRight="true"/>
 
                     <LinearLayout

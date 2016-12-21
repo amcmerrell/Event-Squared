@@ -59,9 +59,13 @@ public class EventbriteService {
                         imageURL = eventJSON.getJSONObject("logo").getString("url");
                     }
                     JSONArray ticketArray = eventJSON.getJSONArray("ticket_classes");
-                    ArrayList<Double> ticketPrices = sortTicketPrices(ticketArray);
-                    Double minPrice = ticketPrices.get(0);
-                    Double maxPrice = ticketPrices.get(ticketPrices.size() - 1);
+                    Double minPrice = -0.01;
+                    Double maxPrice = -0.01;
+                    if (ticketArray.length() > 0) {
+                        ArrayList<Double> ticketPrices = sortTicketPrices(ticketArray);
+                        minPrice = ticketPrices.get(0);
+                        maxPrice = ticketPrices.get(ticketPrices.size() - 1);
+                    }
                     Event event = new Event(id, name, dateTime, venue, minPrice, maxPrice, imageURL);
                     events.add(event);
                 }
@@ -81,6 +85,8 @@ public class EventbriteService {
                 JSONObject ticket = tickets.getJSONObject(i);
                 if (ticket.getBoolean("free")) {
                     prices.add(0.00);
+                } else if(ticket.isNull("cost")) {
+                    prices.add(-0.01);
                 } else {
                     Integer intPrice = ticket.getJSONObject("cost").getInt("value");
                     Double price = intPrice / 100.00;
@@ -93,37 +99,4 @@ public class EventbriteService {
         }
         return prices;
     }
-
-
-
-//    public static void findEventTicketPrice(String eventId, Callback callback) {
-//        OkHttpClient client = new OkHttpClient.Builder().build();
-//
-//        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.EVENTBRITE_BASE_URL).newBuilder();
-//        urlBuilder.addPathSegment(eventId)
-//                .addPathSegment(Constants.EVENTBRITE_TICKET_PATH)
-//                .addQueryParameter(Constants.EVENTBRITE_TOKEN_PARAMETER, Constants.EVENTBRITE_API_TOKEN);
-//        String url = urlBuilder.build().toString();
-//
-//        Request request = new Request.Builder().url(url).build();
-//
-//        Call call = client.newCall(request);
-//        call.enqueue(callback);
-//    }
-
-//    public static void setEventbritePrice(Response response) {
-//        ArrayList<Integer> prices = new ArrayList<>();
-//
-//        try {
-//            String jsonData = response.body().string();
-//            if (response.isSuccessful()) {
-//                JSONObject eventbriteTicketJSON = new JSONObject(jsonData);
-//                JSONArray ticketsJSON = eventbriteTicketJSON.getJSONArray("ticket_classes");
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
