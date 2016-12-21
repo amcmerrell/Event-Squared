@@ -30,45 +30,55 @@
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/eventCardTextLayout"
                 android:background="@color/colorAccentTransparent"
                 android:padding="5dp"
                 android:layout_alignBottom="@+id/eventListImageView">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventNameTextView"
-                    android:layout_alignParentTop="true"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="Event Name"
-                    android:textColor="@color/colorTextIcons" />
+                    android:layout_gravity="start"
+                    android:layout_weight="2.5">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/dateTextView"
-                    android:text="12/20/2016"
-                    android:textColor="@color/colorTextIcons"
-                    android:textStyle="italic"
-                    android:layout_below="@+id/eventNameTextView" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventNameTextView"
+                        android:layout_alignParentTop="true"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="Event Name"
+                        android:textColor="@color/colorTextIcons" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/venueTextView"
-                    android:textColor="@color/colorTextIcons"
-                    android:text="Venue Name"
-                    android:textStyle="italic"
-                    android:layout_below="@+id/dateTextView" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dateTextView"
+                        android:text="12/20/2016"
+                        android:textColor="@color/colorTextIcons"
+                        android:textStyle="italic"
+                        android:layout_below="@+id/eventNameTextView" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/venueTextView"
+                        android:textColor="@color/colorTextIcons"
+                        android:text="Venue Name"
+                        android:textStyle="italic"
+                        android:layout_below="@+id/dateTextView" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1">
 
                     <Button
                         android:layout_width="wrap_content"
@@ -109,7 +119,7 @@
 
                 </RelativeLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 
