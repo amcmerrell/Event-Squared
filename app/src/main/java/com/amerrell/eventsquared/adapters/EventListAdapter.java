@@ -36,11 +36,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListAdapter.EventViewHolder holder, int position) {
-        Picasso.with(mContext).load(mEvents.get(position).getImageURL()).into(holder.mEventListImageView);
+        if (!mEvents.get(position).getImageURL().equals("")) {
+            Picasso.with(mContext).load(mEvents.get(position).getImageURL()).into(holder.mEventListImageView);
+        }
         holder.mEventNameTextView.setText(mEvents.get(position).getName());
-        holder.mDateTextView.setText(mEvents.get(position).toDateTime().toString());
-        holder.mMinPriceTextView.setText(mEvents.get(position).getMinPrice().toString());
-        holder.mMaxPriceTextView.setText(mEvents.get(position).getMaxPrice().toString());
+        holder.mDateTextView.setText(mEvents.get(position).getDateTime());
+        holder.mMinPriceTextView.setText(mEvents.get(position).toStringMinPrice());
+        holder.mMaxPriceTextView.setText(mEvents.get(position).toStringMaxPrice());
+        holder.mVenueTextView.setText(mEvents.get(position).getVenue());
     }
 
     @Override
@@ -61,6 +64,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         Button mTicketsButton;
         TextView mMinPriceTextView;
         TextView mMaxPriceTextView;
+        TextView mVenueTextView;
         private Context mContext;
 
         public EventViewHolder(View itemView) {
@@ -72,7 +76,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mTicketsButton = (Button) itemView.findViewById(R.id.ticketsButton);
             mMinPriceTextView = (TextView) itemView.findViewById(R.id.minPriceTextView);
             mMaxPriceTextView = (TextView) itemView.findViewById(R.id.maxPriceTextView);
-
+            mVenueTextView = (TextView) itemView.findViewById(R.id.venueTextView);
             mContext = itemView.getContext();
         }
 
