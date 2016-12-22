@@ -6,22 +6,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.amerrell.eventsquared.ui.EventListActivity">
 
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/loadingPanel"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center" >-->
 
-        <!--<ProgressBar-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:indeterminate="true" />-->
-    <!--</RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/secondaryLoadingPanel"
         android:id="@+id/eventListRecyclerView"/>
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Getting Events"
+            android:layout_centerInParent="true"
+            android:id="@+id/primaryProgressTextView" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/primaryProgressBar"
+            android:layout_below="@+id/primaryProgressTextView"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/secondaryLoadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Grabbing more events..."
+            android:layout_centerHorizontal="true"
+            android:id="@+id/secondaryProgressTextView" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/secondaryProgressTextView"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

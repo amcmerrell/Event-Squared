@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.amerrell.eventsquared.Constants;
@@ -33,7 +32,8 @@ import okhttp3.Response;
 
 public class EventListActivity extends AppCompatActivity {
     @Bind(R.id.eventListRecyclerView) RecyclerView mEventRecyclerView;
-    //@Bind(R.id.loadingPanel) RelativeLayout mLoadingPanel;
+    @Bind(R.id.loadingPanel) RelativeLayout mLoadingPanel;
+    @Bind(R.id.secondaryLoadingPanel) RelativeLayout mSecondaryLoadingPanel;
     private EventListAdapter mEventAdapter;
 
     private SharedPreferences mSharedPreferences;
@@ -52,7 +52,8 @@ public class EventListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_list);
         ButterKnife.bind(this);
 
-        //mEventRecyclerView.setVisibility(View.GONE);
+        mSecondaryLoadingPanel.setVisibility(View.GONE);
+        mEventRecyclerView.setVisibility(View.GONE);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSearchCity = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_CITY, null);
         mSearchState = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_STATE, null);
@@ -60,7 +61,6 @@ public class EventListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mPageNumber = intent.getIntExtra("pageNumber", 0);
 
-        getTMEvents(mSearchCity, mSearchState);
         getEventbriteEvents(mSearchCity, mSearchState);
     }
 
@@ -99,6 +99,10 @@ public class EventListActivity extends AppCompatActivity {
                         //Get saved scroll position and set onScrollListener to load data on page end.
                         mEventRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
 
+                        mEventRecyclerView.setVisibility(View.VISIBLE);
+                        mLoadingPanel.setVisibility(View.GONE);
+                        mSecondaryLoadingPanel.setVisibility(View.GONE);
+
                         mEventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -115,8 +119,9 @@ public class EventListActivity extends AppCompatActivity {
                                             mPageNumber++;
                                             Log.d("Search city", mSearchCity);
                                             Log.d("Page number", mPageNumber.toString());
-                                            getTMEvents(mSearchCity, mSearchState);
                                             getEventbriteEvents(mSearchCity, mSearchState);
+                                            //mEventRecyclerView.setVisibility(View.GONE);
+                                            mSecondaryLoadingPanel.setVisibility(View.VISIBLE);
                                         }
                                     }
                                 }
