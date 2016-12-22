@@ -26,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TicketmasterService {
-    public static void findTMEvents(String city, String state, Callback callback) {
+    public static void findTMEvents(String city, String state, Integer pageNumber, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -36,7 +36,8 @@ public class TicketmasterService {
         urlBuilder.addQueryParameter(Constants.TM_KEY_PARAMETER, Constants.TM_API_KEY)
             .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
             .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
-            .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt));
+            .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
+            .addQueryParameter("page", "0");
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder().url(url).build();
