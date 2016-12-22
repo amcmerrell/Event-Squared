@@ -9,6 +9,7 @@ public class Constants {
     public static final String TM_SORT_PARAMETER = "sort";
     public static final String TM_START_DATE_PARAMETER = "startDateTime";
     public static final String TM_DATE_ASC_VALUE = "date,asc";
+    public static final String TM_PAGE_PARAMETER = "page";
 
     public static final String EVENTBRITE_API_TOKEN = BuildConfig.EVENTBRITE_TOKEN_KEY;
     public static final String EVENTBRITE_BASE_URL = "https://www.eventbriteapi.com/v3/events/";
@@ -22,4 +23,8 @@ public class Constants {
     public static final String EVENTBRITE_DATE_VALUE = "date";
     public static final String EVENTBRITE_TODAY_VALUE = "today";
     public static final String EVENTBRITE_VENUE_TICKETS_VALUES = "venue,ticket_classes";
+    public static final String EVENTBRITE_PAGE_PARAMETER = "page";
+
+    public static final String SHARED_PREFERENCES_CITY = "city";
+    public static final String SHARED_PREFERENCES_STATE = "state";
 }

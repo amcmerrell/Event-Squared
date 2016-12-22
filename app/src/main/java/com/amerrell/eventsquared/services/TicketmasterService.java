@@ -37,7 +37,7 @@ public class TicketmasterService {
             .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
             .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
             .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
-            .addQueryParameter("page", "0");
+            .addQueryParameter(Constants.TM_PAGE_PARAMETER, pageNumber.toString());
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder().url(url).build();

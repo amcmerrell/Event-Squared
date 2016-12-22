@@ -27,11 +27,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class EventbriteService {
-    public static void findEventbriteEvents(String cityState, Callback callback) {
+    public static void findEventbriteEvents(String cityState, Integer pageNumber, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         DateTime dt = new DateTime(DateTimeZone.getDefault());
+
+        Integer eventbritePage = pageNumber + 1;
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.EVENTBRITE_BASE_URL).newBuilder();
         urlBuilder.addPathSegment(Constants.EVENTBRITE_SEARCH_PATH)
@@ -39,6 +41,7 @@ public class EventbriteService {
                 .addQueryParameter(Constants.EVENTBRITE_START_DATE_PARAMETER, dateFormat.print(dt))
                 .addQueryParameter(Constants.EVENTBRITE_SORTBY_PARAMETER, Constants.EVENTBRITE_DATE_VALUE)
                 .addQueryParameter(Constants.EVENTBRITE_EXPAND_PARAMETER, Constants.EVENTBRITE_VENUE_TICKETS_VALUES)
+                .addQueryParameter(Constants.EVENTBRITE_PAGE_PARAMETER, eventbritePage.toString())
                 .addQueryParameter(Constants.EVENTBRITE_TOKEN_PARAMETER, Constants.EVENTBRITE_API_TOKEN);
 
         String url = urlBuilder.build().toString();

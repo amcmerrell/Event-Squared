@@ -1,13 +1,17 @@
 package com.amerrell.eventsquared.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.R;
 import com.amerrell.eventsquared.adapters.EventListAdapter;
 import com.amerrell.eventsquared.models.Event;
@@ -25,10 +29,15 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class EventListActivity extends AppCompatActivity implements View.OnClickListener{
+public class EventListActivity extends AppCompatActivity {
     @Bind(R.id.eventListRecyclerView) RecyclerView mEventRecyclerView;
-    @Bind(R.id.nextPageButton) Button mNextPageButton;
     private EventListAdapter mEventAdapter;
+
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+
+    private boolean loading = true;
+
     public ArrayList<Event> mEvents = new ArrayList<>();
     public ArrayList<Event> mTMEvents = new ArrayList<>();
     public Integer mPageNumber;
@@ -41,18 +50,16 @@ public class EventListActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_event_list);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        if (intent.getStringExtra("city") != null && intent.getStringExtra("state") != null) {
-            mSearchCity = intent.getStringExtra("city");
-            mSearchState = intent.getStringExtra("state");
-        }
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSearchCity = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_CITY, null);
+        mSearchState = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_STATE, null);
+
         mPageNumber = 0;
-        if (intent.getStringExtra("pageNumber") != null) {
-            mPageNumber = intent.getIntExtra("pageNumber", 0);
-        }
+        Intent intent = getIntent();
+        mPageNumber = intent.getIntExtra("pageNumber", 0);
+
         getTMEvents(mSearchCity, mSearchState);
         getEventbriteEvents(mSearchCity, mSearchState);
-        mNextPageButton.setOnClickListener(this);
     }
 
     private void getTMEvents(String city, String state) {
@@ -74,13 +81,40 @@ public class EventListActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
                 EventListActivity.this.runOnUiThread(new Runnable() {
+                    int pastVisiblesItems, visibleItemCount, totalItemCount;
+                    boolean loading = true;
+
                     @Override
                     public void run() {
                         mEventAdapter = new EventListAdapter(getApplicationContext(), mEvents);
                         mEventRecyclerView.setAdapter(mEventAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
+                        final LinearLayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
                         mEventRecyclerView.setLayoutManager(layoutManager);
                         mEventRecyclerView.setHasFixedSize(true);
+
+                        mEventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                            @Override
+                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                if (dy > 0) {
+                                    visibleItemCount = layoutManager.getChildCount();
+                                    totalItemCount = layoutManager.getItemCount();
+                                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                                    if (loading) {
+                                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                                            Log.d("...", "Reload!");
+                                            loading = false;
+                                            mPageNumber++;
+                                            Log.d("Search city", mSearchCity);
+                                            Log.d("Page number", mPageNumber.toString());
+                                            getTMEvents(mSearchCity, mSearchState);
+                                            getEventbriteEvents(mSearchCity, mSearchState);
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -91,7 +125,7 @@ public class EventListActivity extends AppCompatActivity implements View.OnClick
         String cityState = city + ", " + state;
         final EventbriteService eventbriteService = new EventbriteService();
 
-        eventbriteService.findEventbriteEvents(cityState, new Callback() {
+        eventbriteService.findEventbriteEvents(cityState, mPageNumber,new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -107,15 +141,12 @@ public class EventListActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == mNextPageButton) {
-            mPageNumber++;
-            getTMEvents(mSearchCity, mSearchState);
-            getEventbriteEvents(mSearchCity, mSearchState);
-            Intent intent = new Intent(EventListActivity.this, EventListActivity.class);
-            intent.putExtra("pageNumber", mPageNumber);
-            startActivity(intent);
-        }
+    private void loadNextPage() {
+        mPageNumber++;
+        getTMEvents(mSearchCity, mSearchState);
+        getEventbriteEvents(mSearchCity, mSearchState);
+        Intent intent = new Intent(EventListActivity.this, EventListActivity.class);
+        intent.putExtra("pageNumber", mPageNumber);
+        startActivity(intent);
     }
 }
