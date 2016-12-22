@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.R;
@@ -32,6 +33,7 @@ import okhttp3.Response;
 
 public class EventListActivity extends AppCompatActivity {
     @Bind(R.id.eventListRecyclerView) RecyclerView mEventRecyclerView;
+    //@Bind(R.id.loadingPanel) RelativeLayout mLoadingPanel;
     private EventListAdapter mEventAdapter;
 
     private SharedPreferences mSharedPreferences;
@@ -50,6 +52,7 @@ public class EventListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_list);
         ButterKnife.bind(this);
 
+        //mEventRecyclerView.setVisibility(View.GONE);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSearchCity = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_CITY, null);
         mSearchState = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_STATE, null);
@@ -95,6 +98,7 @@ public class EventListActivity extends AppCompatActivity {
 
                         //Get saved scroll position and set onScrollListener to load data on page end.
                         mEventRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+
                         mEventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
