@@ -2,6 +2,7 @@ package com.amerrell.eventsquared.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,8 +36,7 @@ public class EventListActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-
-    private boolean loading = true;
+    private Parcelable recyclerViewState;
 
     public ArrayList<Event> mEvents = new ArrayList<>();
     public ArrayList<Event> mTMEvents = new ArrayList<>();
@@ -54,7 +54,6 @@ public class EventListActivity extends AppCompatActivity {
         mSearchCity = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_CITY, null);
         mSearchState = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_STATE, null);
 
-        mPageNumber = 0;
         Intent intent = getIntent();
         mPageNumber = intent.getIntExtra("pageNumber", 0);
 
@@ -72,8 +71,8 @@ public class EventListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                mTMEvents = ticketmasterService.processResults(response);
-                mEvents.addAll(mTMEvents);
+                //add Ticketmaster data to array and sort based on event data.
+                mEvents.addAll(ticketmasterService.processResults(response));
                 Collections.sort(mEvents, new Comparator<Event>() {
                     @Override
                     public int compare(Event e1, Event e2) {
@@ -88,12 +87,15 @@ public class EventListActivity extends AppCompatActivity {
                     public void run() {
                         mEventAdapter = new EventListAdapter(getApplicationContext(), mEvents);
                         mEventRecyclerView.setAdapter(mEventAdapter);
+
                         final LinearLayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
+
                         mEventRecyclerView.setLayoutManager(layoutManager);
                         mEventRecyclerView.setHasFixedSize(true);
 
+                        //Get saved scroll position and set onScrollListener to load data on page end.
+                        mEventRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
                         mEventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
                             @Override
                             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                                 if (dy > 0) {
@@ -104,6 +106,7 @@ public class EventListActivity extends AppCompatActivity {
                                     if (loading) {
                                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                                             Log.d("...", "Reload!");
+                                            recyclerViewState = mEventRecyclerView.getLayoutManager().onSaveInstanceState();
                                             loading = false;
                                             mPageNumber++;
                                             Log.d("Search city", mSearchCity);
@@ -134,19 +137,10 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    mEvents = eventbriteService.processResults(response);
+                    mEvents.addAll(eventbriteService.processResults(response));
                     getTMEvents(city, state);
                 }
             }
         });
-    }
-
-    private void loadNextPage() {
-        mPageNumber++;
-        getTMEvents(mSearchCity, mSearchState);
-        getEventbriteEvents(mSearchCity, mSearchState);
-        Intent intent = new Intent(EventListActivity.this, EventListActivity.class);
-        intent.putExtra("pageNumber", mPageNumber);
-        startActivity(intent);
     }
 }
