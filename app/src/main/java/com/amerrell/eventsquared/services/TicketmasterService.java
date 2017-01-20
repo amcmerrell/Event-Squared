@@ -1,7 +1,5 @@
 package com.amerrell.eventsquared.services;
 
-import android.util.Log;
-
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
@@ -14,9 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,6 +33,7 @@ public class TicketmasterService {
             .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
             .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
             .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
+            //.addQueryParameter(Constants.TM_SOURCE_PARAMETER, Constants.TM_SOURCE_VALUE)
             .addQueryParameter(Constants.TM_PAGE_PARAMETER, pageNumber.toString());
         String url = urlBuilder.build().toString();
 

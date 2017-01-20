@@ -6,9 +6,11 @@ public class Constants {
     public static final String TM_KEY_PARAMETER = "apikey";
     public static final String TM_CITY_PARAMETER = "city";
     public static final String TM_STATE_PARAMETER = "stateCode";
+    public static final String TM_SOURCE_PARAMETER = "source";
     public static final String TM_SORT_PARAMETER = "sort";
     public static final String TM_START_DATE_PARAMETER = "startDateTime";
     public static final String TM_DATE_ASC_VALUE = "date,asc";
+    public static final String TM_SOURCE_VALUE = "ticketmaster,universe";
     public static final String TM_PAGE_PARAMETER = "page";
 
     public static final String EVENTBRITE_API_TOKEN = BuildConfig.EVENTBRITE_TOKEN_KEY;
