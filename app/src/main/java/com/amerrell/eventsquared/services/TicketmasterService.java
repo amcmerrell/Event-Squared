@@ -1,5 +1,7 @@
 package com.amerrell.eventsquared.services;
 
+import android.util.Log;
+
 import com.amerrell.eventsquared.Constants;
 import com.amerrell.eventsquared.models.Event;
 
@@ -22,20 +24,30 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TicketmasterService {
-    public static void findTMEvents(String city, String state, Integer pageNumber, Callback callback) {
+    public static void findTMEvents(String city, String state, Integer pageNumber, Boolean onSale,Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         DateTime dt = new DateTime(DateTimeZone.UTC);
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.TM_LOCATION_BASE_URL).newBuilder();
-        urlBuilder.addQueryParameter(Constants.TM_KEY_PARAMETER, Constants.TM_API_KEY)
-            .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
-            .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
-            .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
-            //.addQueryParameter(Constants.TM_SOURCE_PARAMETER, Constants.TM_SOURCE_VALUE)
-            .addQueryParameter(Constants.TM_PAGE_PARAMETER, pageNumber.toString());
+        if (onSale) {
+            urlBuilder.addQueryParameter(Constants.TM_KEY_PARAMETER, Constants.TM_API_KEY)
+                    .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
+                    .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
+                    .addQueryParameter(Constants.TM_SORT_PARAMETER, Constants.TM_DATE_ASC_VALUE)
+                    .addQueryParameter(Constants.TM_SOURCE_PARAMETER, Constants.TM_SOURCE_VALUE)
+                    .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
+                    .addQueryParameter(Constants.TM_PAGE_PARAMETER, pageNumber.toString());
+        } else {
+            urlBuilder.addQueryParameter(Constants.TM_KEY_PARAMETER, Constants.TM_API_KEY)
+                    .addQueryParameter(Constants.TM_CITY_PARAMETER, city)
+                    .addQueryParameter(Constants.TM_STATE_PARAMETER, state)
+                    .addQueryParameter(Constants.TM_START_DATE_PARAMETER, dateFormat.print(dt))
+                    .addQueryParameter(Constants.TM_PAGE_PARAMETER, pageNumber.toString());
+        }
         String url = urlBuilder.build().toString();
+        Log.d("TM url", url);
 
         Request request = new Request.Builder().url(url).build();
 

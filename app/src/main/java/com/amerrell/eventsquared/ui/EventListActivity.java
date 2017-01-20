@@ -66,7 +66,8 @@ public class EventListActivity extends AppCompatActivity {
 
     private void getTMEvents(String city, String state) {
         final TicketmasterService ticketmasterService = new TicketmasterService();
-        ticketmasterService.findTMEvents(city, state, mPageNumber, new Callback() {
+        final Boolean onSale = true;
+        ticketmasterService.findTMEvents(city, state, mPageNumber, onSale, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -74,7 +75,7 @@ public class EventListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                //add Ticketmaster data to array and sort based on event data.
+                //add Ticketmaster data to array and sort based on event date.
                 mEvents.addAll(ticketmasterService.processResults(response));
                 Collections.sort(mEvents, new Comparator<Event>() {
                     @Override
@@ -113,7 +114,6 @@ public class EventListActivity extends AppCompatActivity {
 
                                     if (loading) {
                                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                                            Log.d("...", "Reload!");
                                             recyclerViewState = mEventRecyclerView.getLayoutManager().onSaveInstanceState();
                                             loading = false;
                                             mPageNumber++;
