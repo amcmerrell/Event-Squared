@@ -25,6 +25,7 @@ public class Event {
         this.name = name;
         this.ticketURL = ticketURL;
         this.dateTime = dateTime;
+        this.onSaleDateTime = "";
         this.venue = venue;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
@@ -78,6 +79,14 @@ public class Event {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getOnSaleDateTime() {
+        return onSaleDateTime;
+    }
+
+    public void setOnSaleDateTime(String onSaleDateTime) {
+        this.onSaleDateTime = onSaleDateTime;
     }
 
     public DateTime toDateTime() {
