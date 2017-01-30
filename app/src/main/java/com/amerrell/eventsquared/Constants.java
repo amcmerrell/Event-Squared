@@ -12,6 +12,7 @@ public class Constants {
     public static final String TM_DATE_ASC_VALUE = "date,asc";
     public static final String TM_SOURCE_VALUE = "ticketmaster,universe";
     public static final String TM_PAGE_PARAMETER = "page";
+    public static final String TM_ONSALE_DATE_PARAMETER = "onsaleStartDateTime";
 
     public static final String EVENTBRITE_API_TOKEN = BuildConfig.EVENTBRITE_TOKEN_KEY;
     public static final String EVENTBRITE_BASE_URL = "https://www.eventbriteapi.com/v3/events/";

@@ -11,6 +11,7 @@ public class Event {
     String name;
     String ticketURL;
     String dateTime;
+    String onSaleDateTime;
     String venue;
     Double minPrice;
     Double maxPrice;
