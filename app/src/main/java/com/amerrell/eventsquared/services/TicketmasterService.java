@@ -24,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TicketmasterService {
-    public static void findTMEvents(String city, String state, Integer pageNumber, Boolean onSale,Callback callback) {
+    public static void findTMEvents(String city, String state, Integer pageNumber, Boolean onSale, Callback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");

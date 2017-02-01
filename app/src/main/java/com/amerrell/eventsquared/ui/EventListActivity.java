@@ -2,13 +2,12 @@ package com.amerrell.eventsquared.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -45,6 +44,7 @@ public class EventListActivity extends AppCompatActivity {
     public Integer mPageNumber;
     public String mSearchCity;
     public String mSearchState;
+    public boolean mOnSale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +57,22 @@ public class EventListActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSearchCity = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_CITY, null);
         mSearchState = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_STATE, null);
+        mOnSale = mSharedPreferences.getBoolean(Constants.SHARED_PREFERENCES_ONSALE, true);
 
         Intent intent = getIntent();
         mPageNumber = intent.getIntExtra("pageNumber", 0);
 
-        getEventbriteEvents(mSearchCity, mSearchState);
+        if (mOnSale) {
+            getEventbriteEvents(mSearchCity, mSearchState);
+        } else {
+            getTMEvents(mSearchCity, mSearchState);
+        }
     }
 
     private void getTMEvents(String city, String state) {
         final TicketmasterService ticketmasterService = new TicketmasterService();
         final Boolean onSale = true;
-        ticketmasterService.findTMEvents(city, state, mPageNumber, onSale, new Callback() {
+        ticketmasterService.findTMEvents(city, state, mPageNumber, mOnSale, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -107,24 +112,27 @@ public class EventListActivity extends AppCompatActivity {
                         mEventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                                if (dy > 0) {
-                                    visibleItemCount = layoutManager.getChildCount();
-                                    totalItemCount = layoutManager.getItemCount();
-                                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                            if (dy > 0) {
+                                visibleItemCount = layoutManager.getChildCount();
+                                totalItemCount = layoutManager.getItemCount();
+                                pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
-                                    if (loading) {
-                                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                                            recyclerViewState = mEventRecyclerView.getLayoutManager().onSaveInstanceState();
-                                            loading = false;
-                                            mPageNumber++;
-                                            Log.d("Search city", mSearchCity);
-                                            Log.d("Page number", mPageNumber.toString());
+                                if (loading) {
+                                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                                        recyclerViewState = mEventRecyclerView.getLayoutManager().onSaveInstanceState();
+                                        loading = false;
+                                        mPageNumber++;
+                                        if (mOnSale) {
                                             getEventbriteEvents(mSearchCity, mSearchState);
-                                            //mEventRecyclerView.setVisibility(View.GONE);
-                                            mSecondaryLoadingPanel.setVisibility(View.VISIBLE);
+                                        } else {
+                                            getTMEvents(mSearchCity, mSearchState);
                                         }
+
+                                        //mEventRecyclerView.setVisibility(View.GONE);
+                                        mSecondaryLoadingPanel.setVisibility(View.VISIBLE);
                                     }
                                 }
+                            }
                             }
                         });
                     }

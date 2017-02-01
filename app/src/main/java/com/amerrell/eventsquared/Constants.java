@@ -30,4 +30,5 @@ public class Constants {
 
     public static final String SHARED_PREFERENCES_CITY = "city";
     public static final String SHARED_PREFERENCES_STATE = "state";
+    public static final String SHARED_PREFERENCES_ONSALE = "onSale";
 }
